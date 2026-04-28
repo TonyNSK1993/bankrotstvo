@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Калькулятор банкротства | Готовое решение для юристов</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
-  <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     * {
@@ -21,25 +20,59 @@
       line-height: 1.5;
     }
 
-    /* Адаптивный контейнер — без фиксированного max-width на больших экранах */
-    .container {
+    /* Глобальный фон на всю ширину */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0 2rem;
+      height: 100%;
+      background-image: url('https://avatars.mds.yandex.net/i?id=c4320d05474a0cba95543b56979d2c36_l-7753086-images-thumbs&n=13');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0.08;
+      z-index: -2;
+      pointer-events: none;
     }
 
-    /* На очень больших экранах увеличиваем отступы по бокам */
-    @media (min-width: 1600px) {
-      .container {
-        padding: 0 4rem;
-      }
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
     }
 
     @media (max-width: 768px) {
       .container {
         padding: 0 1rem;
       }
+    }
+
+    /* Тарифы с фоном и затемнением как у других блоков */
+    .tariffs-section {
+      position: relative;
+      margin: 0 -100vw;
+      padding: 4rem 100vw;
+      background-image: url('https://storage.myseldon.com/news-pict-01/01AD15EA810E3E84DC36C7D97FCF8929');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+    .tariffs-section .container {
+      position: relative;
+      z-index: 2;
+    }
+    .tariffs-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 12, 21, 0.85);
+      z-index: 1;
     }
 
     .header {
@@ -50,8 +83,6 @@
       align-items: center;
       flex-wrap: wrap;
       gap: 1rem;
-      position: relative;
-      z-index: 2;
     }
 
     .logo {
@@ -82,33 +113,12 @@
       color: white;
     }
 
-    /* Hero — адаптивная сетка */
     .hero {
-      position: relative;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 3rem;
       padding: 4rem 0;
       align-items: center;
-      isolation: isolate;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -50px;
-      left: -5%;
-      right: -5%;
-      bottom: -50px;
-      background-image: url('https://avatars.mds.yandex.net/i?id=c4320d05474a0cba95543b56979d2c36_l-7753086-images-thumbs&n=13');
-      background-size: cover;
-      background-position: center 30%;
-      background-repeat: no-repeat;
-      opacity: 0.1;
-      z-index: -1;
-      border-radius: 3rem;
-      filter: blur(2px);
-      pointer-events: none;
     }
 
     @media (max-width: 900px) {
@@ -117,9 +127,6 @@
         gap: 2rem;
         padding: 2rem 0;
         text-align: center;
-      }
-      .hero .cta-buttons {
-        justify-content: center !important;
       }
     }
 
@@ -136,7 +143,7 @@
 
     .hero p {
       color: #94a3b8;
-      font-size: clamp(0.95rem, 3vw, 1.1rem);
+      font-size: 1.05rem;
       margin-bottom: 2rem;
     }
 
@@ -149,20 +156,17 @@
       margin-bottom: 1.5rem;
     }
 
-    /* Анимированный блок */
     .animated-features {
       background: linear-gradient(135deg, rgba(16, 24, 40, 0.8), rgba(10, 15, 30, 0.9));
       border-radius: 1.5rem;
       padding: 1.8rem;
       border: 1px solid rgba(56, 189, 248, 0.2);
       backdrop-filter: blur(10px);
-      position: relative;
-      overflow: hidden;
     }
 
     .feature-slider {
       text-align: center;
-      min-height: 180px;
+      min-height: 160px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -193,7 +197,7 @@
       display: flex;
       justify-content: center;
       gap: 0.5rem;
-      margin-top: 1.2rem;
+      margin-top: 1rem;
     }
 
     .dot {
@@ -202,7 +206,6 @@
       border-radius: 50%;
       background: #334155;
       cursor: pointer;
-      transition: all 0.2s;
     }
 
     .dot.active {
@@ -215,8 +218,8 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 0.8rem;
-      margin-top: 1.2rem;
+      gap: 0.5rem;
+      margin-top: 1rem;
       padding-top: 1rem;
       border-top: 1px solid #1e293b;
     }
@@ -234,11 +237,11 @@
       color: #60a5fa;
     }
 
-    /* Блок о разработчике */
     .about-dev {
       padding: 4rem 0;
       border-top: 1px solid rgba(56, 189, 248, 0.1);
     }
+
     .about-grid {
       display: grid;
       grid-template-columns: auto 1fr;
@@ -249,22 +252,15 @@
       padding: 2rem;
       border: 1px solid #2d3a5e;
     }
+
     .dev-photo {
       width: 120px;
       height: 120px;
       border-radius: 50%;
       object-fit: cover;
       border: 3px solid #3b82f6;
-      box-shadow: 0 0 20px rgba(59,130,246,0.3);
     }
-    .about-text p {
-      color: #cbd5e6;
-      margin-bottom: 1rem;
-      font-size: 1rem;
-    }
-    .about-text strong {
-      color: #60a5fa;
-    }
+
     @media (max-width: 640px) {
       .about-grid {
         grid-template-columns: 1fr;
@@ -275,8 +271,10 @@
       }
     }
 
-    /* Features сетка */
-    .features {
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
       padding: 4rem 0;
       border-top: 1px solid rgba(56, 189, 248, 0.1);
     }
@@ -285,13 +283,7 @@
       font-size: clamp(1.5rem, 4vw, 2rem);
       font-weight: 700;
       text-align: center;
-      margin-bottom: 3rem;
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
+      margin: 2rem 0 0;
     }
 
     .feature-card {
@@ -299,54 +291,17 @@
       border-radius: 1.5rem;
       padding: 1.5rem;
       border: 1px solid #2d3a5e;
-      transition: 0.2s;
       text-align: center;
     }
 
     .feature-card:hover {
       border-color: #3b82f6;
-      transform: translateY(-4px);
     }
 
     .feature-icon {
       font-size: 2.5rem;
       margin-bottom: 1rem;
       color: #60a5fa;
-    }
-
-    .feature-card h3 {
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .feature-card p {
-      color: #8e9bc0;
-      font-size: 0.85rem;
-    }
-
-    /* Тарифы с фоном */
-    .tariffs {
-      position: relative;
-      padding: 4rem 0;
-      border-top: 1px solid rgba(56, 189, 248, 0.1);
-      isolation: isolate;
-    }
-
-    .tariffs::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -5%;
-      right: -5%;
-      bottom: 0;
-      background-image: url('https://storage.myseldon.com/news-pict-01/01AD15EA810E3E84DC36C7D97FCF8929');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      opacity: 0.07;
-      z-index: -1;
-      border-radius: 2rem;
-      pointer-events: none;
     }
 
     .tariffs-grid {
@@ -357,23 +312,17 @@
     }
 
     .tariff-card {
-      background: rgba(12, 17, 29, 0.85);
+      background: rgba(12, 17, 29, 0.9);
       backdrop-filter: blur(4px);
       border-radius: 1.5rem;
       padding: 2rem;
       border: 1px solid #2d3a5e;
       text-align: center;
-      transition: 0.2s;
-    }
-
-    .tariff-card:hover {
-      transform: translateY(-4px);
-      border-color: #3b82f6;
     }
 
     .tariff-card.popular {
       border-color: #3b82f6;
-      background: rgba(59, 130, 246, 0.12);
+      background: rgba(59, 130, 246, 0.15);
       position: relative;
     }
 
@@ -386,19 +335,12 @@
       padding: 0.2rem 1rem;
       border-radius: 2rem;
       font-size: 0.7rem;
-      font-weight: 600;
     }
 
     .tariff-price {
       font-size: 2rem;
       font-weight: 800;
       margin: 1rem 0;
-    }
-
-    .tariff-price span {
-      font-size: 0.9rem;
-      font-weight: 400;
-      color: #8e9bc0;
     }
 
     .tariff-features {
@@ -424,7 +366,6 @@
       background: transparent;
       border: 2px solid #3b82f6;
       color: #3b82f6;
-      margin-top: 0;
       width: 100%;
       padding: 0.8rem;
       border-radius: 2rem;
@@ -438,18 +379,46 @@
       color: white;
     }
 
-    /* Демо калькулятор */
-    .demo-calculator-section {
+    /* Блок плюсов / преимуществ */
+    .plus-section {
       padding: 4rem 0;
       border-top: 1px solid rgba(56, 189, 248, 0.1);
-      scroll-margin-top: 20px;
+    }
+    .plus-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .plus-card {
+      background: rgba(12, 17, 29, 0.6);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      border: 1px solid #2d3a5e;
+      text-align: center;
+      transition: 0.2s;
+    }
+    .plus-card:hover {
+      border-color: #3b82f6;
+      transform: translateY(-4px);
+    }
+    .plus-icon {
+      font-size: 2.5rem;
+      color: #10b981;
+      margin-bottom: 1rem;
+    }
+    .plus-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.8rem;
+    }
+    .plus-card p {
+      color: #8e9bc0;
+      font-size: 0.9rem;
     }
 
-    .demo-sub {
-      text-align: center;
-      color: #8e9bc0;
-      margin-bottom: 2rem;
-      font-size: 0.9rem;
+    .demo-section {
+      padding: 4rem 0;
+      border-top: 1px solid rgba(56, 189, 248, 0.1);
     }
 
     .glass-panel {
@@ -458,22 +427,17 @@
       border-radius: 2rem;
       border: 1px solid rgba(56, 189, 248, 0.2);
       padding: 2rem;
-      width: 100%;
-      overflow-x: auto;
+      margin-top: 2rem;
     }
 
     .step-title {
-      font-size: clamp(1rem, 4vw, 1.3rem);
+      font-size: 1.3rem;
       font-weight: 600;
       background: linear-gradient(120deg, #e0f2fe, #b9d4ff);
       background-clip: text;
       -webkit-background-clip: text;
       color: transparent;
       margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      flex-wrap: wrap;
     }
 
     .step-counter {
@@ -482,13 +446,13 @@
       padding: 0.2rem 0.6rem;
       border-radius: 2rem;
       color: #94a3b8;
+      margin-left: 0.5rem;
     }
 
     .options-grid {
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
-      margin-top: 0.5rem;
     }
 
     .option-btn {
@@ -496,10 +460,7 @@
       border: 1px solid #2d3a5e;
       border-radius: 1rem;
       padding: 0.8rem 1rem;
-      font-size: 0.9rem;
-      color: #e2e8f0;
       cursor: pointer;
-      transition: all 0.2s;
     }
 
     .option-btn:hover {
@@ -509,21 +470,62 @@
 
     .option-btn.selected {
       background: linear-gradient(95deg, #1e3a8a, #2563eb);
-      border-color: #60a5fa;
       color: white;
     }
 
-    /* How it works */
-    .how-it-works {
-      padding: 4rem 0;
-      border-top: 1px solid rgba(56, 189, 248, 0.1);
+    .calc-next {
+      background: linear-gradient(95deg, #2563eb, #1e40af);
+      border: none;
+      width: 100%;
+      padding: 0.8rem;
+      border-radius: 2rem;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    .result-card {
+      background: #0a0f1f;
+      border-radius: 1.6rem;
+      padding: 1.5rem;
+      border-left: 4px solid #3b82f6;
+    }
+
+    .lead-form {
+      background: #0c1122;
+      border-radius: 1rem;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+
+    .lead-form input {
+      width: 100%;
+      background: #0f1322;
+      border: 1px solid #252e45;
+      border-radius: 0.8rem;
+      padding: 0.7rem;
+      color: white;
+      margin-top: 0.5rem;
+    }
+
+    .btn-success {
+      background: #2b6e3c;
+      width: 100%;
+      padding: 0.7rem;
+      border-radius: 2rem;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-top: 0.8rem;
     }
 
     .steps {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 2rem;
       text-align: center;
+      padding: 4rem 0;
     }
 
     .step-num {
@@ -536,24 +538,12 @@
       justify-content: center;
       margin: 0 auto 1rem;
       font-weight: 700;
-      font-size: 1.2rem;
     }
 
-    /* CTA */
     .cta {
+      text-align: center;
       padding: 4rem 0;
       border-top: 1px solid rgba(56, 189, 248, 0.1);
-      text-align: center;
-    }
-
-    .cta h2 {
-      font-size: clamp(1.5rem, 4vw, 2rem);
-      margin-bottom: 1rem;
-    }
-
-    .cta p {
-      color: #8e9bc0;
-      margin-bottom: 2rem;
     }
 
     .cta-buttons {
@@ -561,277 +551,315 @@
       gap: 1rem;
       justify-content: center;
       flex-wrap: wrap;
+      margin-top: 2rem;
     }
 
     .btn-primary {
       background: linear-gradient(95deg, #2563eb, #1e40af);
-      padding: 0.9rem 1.8rem;
+      padding: 0.9rem 2rem;
       border-radius: 2rem;
       text-decoration: none;
       color: white;
       font-weight: 600;
-      transition: 0.2s;
       display: inline-block;
-      font-size: 0.95rem;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
     }
 
     .btn-outline {
       border: 2px solid #3b82f6;
-      padding: 0.9rem 1.8rem;
+      padding: 0.9rem 2rem;
       border-radius: 2rem;
       text-decoration: none;
       color: #3b82f6;
       font-weight: 600;
-      transition: 0.2s;
       display: inline-block;
-      font-size: 0.95rem;
-    }
-
-    .btn-outline:hover {
-      background: rgba(59, 130, 246, 0.1);
     }
 
     footer {
-      padding: 2rem 0;
-      border-top: 1px solid rgba(56, 189, 248, 0.1);
       text-align: center;
+      padding: 2rem 0;
       font-size: 0.75rem;
       color: #5b6a8c;
-    }
-
-    /* Мобильные доработки */
-    @media (max-width: 640px) {
-      .tariffs-grid {
-        grid-template-columns: 1fr;
-      }
-      .features-grid {
-        grid-template-columns: 1fr;
-      }
-      .steps {
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-      }
-      .cta-buttons {
-        flex-direction: column;
-        align-items: center;
-      }
-      .btn-primary, .btn-outline {
-        width: 100%;
-        max-width: 280px;
-        text-align: center;
-      }
-      .glass-panel {
-        padding: 1.2rem;
-      }
-      .option-btn {
-        padding: 0.6rem 0.8rem;
-        font-size: 0.8rem;
-      }
+      border-top: 1px solid rgba(56, 189, 248, 0.1);
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <div class="logo">BANK<span>ROT</span>.PRO</div>
-      <a href="https://t.me/Tony_nsk" target="_blank" class="tg-btn"><i class="fab fa-telegram-plane"></i> @Tony_nsk</a>
-    </div>
 
-    <div class="hero">
-      <div>
-        <div class="hero-badge"><i class="fas fa-bolt"></i> Готовый B2B-продукт</div>
-        <h1>Калькулятор банкротства<br>для вашего сайта</h1>
-        <p>Готовый лидогенерирующий виджет с умной логикой, дизайном и сбором заявок. Установка за 5 минут — просто скопируйте код.</p>
-        <div class="cta-buttons" style="justify-content: flex-start;">
-          <a href="#tariffs" class="btn-primary">Выбрать тариф</a>
-          <a href="#demoCalculator" class="btn-outline" style="border-color: #10b981; color: #10b981;"><i class="fas fa-play"></i> Демо-версия</a>
-        </div>
-      </div>
-
-      <div class="animated-features">
-        <div class="feature-slider" id="featureSlider">
-          <div class="feature-icon-big" id="sliderIcon"><i class="fas fa-list-ol"></i></div>
-          <div class="feature-text" id="sliderTitle">6 шагов опроса</div>
-          <div class="feature-desc" id="sliderDesc">Как на настоящей консультации юриста</div>
-        </div>
-        <div class="feature-dots" id="featureDots"></div>
-        <div class="features-list">
-          <span class="feature-tag highlight"><i class="fas fa-chart-line"></i> Оценка риска</span>
-          <span class="feature-tag"><i class="fas fa-file-alt"></i> Генерация заявления</span>
-          <span class="feature-tag"><i class="fas fa-calendar-week"></i> Таймлайн</span>
-          <span class="feature-tag"><i class="fas fa-paper-plane"></i> Лиды в Telegram</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="about-dev">
-      <div class="about-grid">
-        <img class="dev-photo" src="https://img.hhcdn.ru/photo/761428149.jpeg?t=1777474324&h=vFW-66iAGI7GRPoWk6MIGw" alt="Разработчик" onerror="this.src='https://via.placeholder.com/120x120?text=Photo'">
-        <div class="about-text">
-          <p><strong>Привет, меня зовут Антон — разработчик цифровых инструментов для юридической сферы.</strong></p>
-          <p>Создаю точные калькуляторы, формы захвата лидов и CRM-интеграции, которые превращают посетителей сайта в подготовленных клиентов. Работаю официально как самозанятый: прозрачно, по договору, с фиксированными сроками и гарантией на код.</p>
-          <p>Моя цель — не просто «вставить скрипт», а дать вам рабочий инструмент, который будет приносить заявки ежедневно.</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="features">
-      <h2 class="section-title">Что внутри?</h2>
-      <div class="features-grid">
-        <div class="feature-card"><div class="feature-icon"><i class="fas fa-brain"></i></div><h3>Умная логика</h3><p>Динамические вопросы — только релевантные</p></div>
-        <div class="feature-card"><div class="feature-icon"><i class="fas fa-chart-pie"></i></div><h3>Скоринг рисков</h3><p>Оценка шансов по 127-ФЗ</p></div>
-        <div class="feature-card"><div class="feature-icon"><i class="fas fa-file-signature"></i></div><h3>Генератор документов</h3><p>Заявление + чек-лист</p></div>
-        <div class="feature-card"><div class="feature-icon"><i class="fas fa-timeline"></i></div><h3>Таймлайн</h3><p>План процедуры по дням</p></div>
-        <div class="feature-card"><div class="feature-icon"><i class="fas fa-envelope-open-text"></i></div><h3>Сбор заявок</h3><p>Лиды в Telegram</p></div>
-        <div class="feature-card"><div class="feature-icon"><i class="fas fa-palette"></i></div><h3>White Label</h3><p>Ваш брендинг</p></div>
-      </div>
-    </div>
-
-    <div id="tariffs" class="tariffs">
-      <h2 class="section-title">Тарифы</h2>
-      <div class="tariffs-grid">
-        <div class="tariff-card"><h3>Базовый</h3><div class="tariff-price">6 900 ₽<span> / разово</span></div><ul class="tariff-features"><li><i class="fas fa-check-circle"></i> Полный функционал</li><li><i class="fas fa-code"></i> Установка на сайт</li><li><i class="fab fa-telegram"></i> Сбор заявок в Telegram</li></ul><button class="tariff-btn" onclick="location.href='https://t.me/Tony_nsk'">Купить</button></div>
-        <div class="tariff-card popular"><div class="popular-badge">🔥 Хит</div><h3>White Label</h3><div class="tariff-price">14 900 ₽<span> / разово</span></div><ul class="tariff-features"><li><i class="fas fa-check-circle"></i> Всё из Базового</li><li><i class="fas fa-crown"></i> Ваш брендинг</li><li><i class="fas fa-plug"></i> Настройка под CRM</li><li><i class="fas fa-headset"></i> 1 месяц поддержки</li></ul><button class="tariff-btn" onclick="location.href='https://t.me/Tony_nsk'">Выбрать</button></div>
-        <div class="tariff-card"><h3>VIP</h3><div class="tariff-price">29 990 ₽<span> / разово</span></div><ul class="tariff-features"><li><i class="fas fa-check-circle"></i> Всё из White Label</li><li><i class="fas fa-chalkboard-user"></i> Интеграция с CRM</li><li><i class="fab fa-telegram-plane"></i> Telegram-бот для лидов</li><li><i class="fas fa-shield-alt"></i> 3 месяца поддержки</li></ul><button class="tariff-btn" onclick="location.href='https://t.me/Tony_nsk'">Обсудить</button></div>
-      </div>
-    </div>
-
-    <div id="demoCalculator" class="demo-calculator-section">
-      <h2 class="section-title"><i class="fas fa-flask"></i> Демо-версия калькулятора</h2>
-      <div class="demo-sub">Пройдите опрос — оценка рисков, генерация документов, таймлайн</div>
-      <div class="glass-panel">
-        <div id="fullCalcContainer"></div>
-      </div>
-    </div>
-
-    <div class="how-it-works">
-      <h2 class="section-title">Как подключить?</h2>
-      <div class="steps">
-        <div><div class="step-num">1</div><h4>Выбираете тариф</h4><p>Базовый / White Label / VIP</p></div>
-        <div><div class="step-num">2</div><h4>Оплачиваете</h4><p>Связь в Telegram</p></div>
-        <div><div class="step-num">3</div><h4>Получаете код</h4><p>1 строка — на ваш сайт</p></div>
-        <div><div class="step-num">4</div><h4>Собираете заявки</h4><p>Клиенты → вам в Telegram</p></div>
-      </div>
-    </div>
-
-    <div class="cta">
-      <h2>Готовы увеличить поток клиентов?</h2>
-      <p>Калькулятор привлекает и собирает заявки 24/7</p>
-      <div class="cta-buttons">
-        <a href="https://t.me/Tony_nsk" target="_blank" class="btn-primary"><i class="fab fa-telegram-plane"></i> Написать в Telegram</a>
-        <a href="https://t.me/Tony_nsk" target="_blank" class="btn-outline"><i class="fab fa-telegram"></i> @Tony_nsk</a>
-      </div>
-      <p style="margin-top: 1.5rem; font-size: 0.8rem;">Почта: <a href="mailto:innet24@internet.ru" style="color: #60a5fa;">innet24@internet.ru</a></p>
-    </div>
-
-    <footer>
-      <p>© 2026 BANKROT.PRO — Готовые решения для юристов</p>
-      <p>@Tony_nsk в Telegram | innet24@internet.ru</p>
-    </footer>
+<div class="container">
+  <div class="header">
+    <div class="logo">BANK<span>ROT</span>.PRO</div>
+    <a href="https://t.me/Tony_nsk" target="_blank" class="tg-btn"><i class="fab fa-telegram-plane"></i> @Tony_nsk</a>
   </div>
 
-  <script>
-    // Анимация преимуществ
-    const slides = [
-      { icon: '<i class="fas fa-list-ol"></i>', title: "6 шагов опроса", desc: "Как на настоящей консультации юриста" },
-      { icon: '<i class="fas fa-chart-line"></i>', title: "Оценка риска 0-100%", desc: "На основе 127-ФЗ" },
-      { icon: '<i class="fas fa-file-alt"></i>', title: "Генерация документов", desc: "Заявление + чек-лист" },
-      { icon: '<i class="fas fa-calendar-week"></i>', title: "Персональный таймлайн", desc: "План с реальными сроками" },
-      { icon: '<i class="fas fa-paper-plane"></i>', title: "Лид-форма + Telegram", desc: "Заявки мгновенно" },
-      { icon: '<i class="fas fa-palette"></i>', title: "White Label", desc: "Ваш логотип, цвета" }
-    ];
-    
-    let currentSlide = 0;
-    const sliderIcon = document.getElementById('sliderIcon');
-    const sliderTitle = document.getElementById('sliderTitle');
-    const sliderDesc = document.getElementById('sliderDesc');
-    const dotsContainer = document.getElementById('featureDots');
-    
-    slides.forEach((_, i) => {
-      const dot = document.createElement('div');
-      dot.classList.add('dot');
-      if (i === 0) dot.classList.add('active');
-      dot.addEventListener('click', () => { currentSlide = i; updateSlide(); });
-      dotsContainer.appendChild(dot);
+  <div class="hero">
+    <div>
+      <div class="hero-badge"><i class="fas fa-bolt"></i> Готовый B2B-продукт</div>
+      <h1>Калькулятор банкротства<br>для вашего сайта</h1>
+      <p>Готовый лидогенерирующий виджет с умной логикой, дизайном и сбором заявок. Установка за 5 минут.</p>
+      <div class="cta-buttons" style="justify-content: flex-start; margin-top: 0;">
+        <a href="#tariffs" class="btn-primary">Выбрать тариф</a>
+        <a href="#demo" class="btn-outline" style="border-color: #10b981; color: #10b981;"><i class="fas fa-play"></i> Демо-версия</a>
+      </div>
+    </div>
+
+    <div class="animated-features">
+      <div class="feature-slider" id="featureSlider">
+        <div class="feature-icon-big" id="sliderIcon"><i class="fas fa-list-ol"></i></div>
+        <div class="feature-text" id="sliderTitle">6 шагов опроса</div>
+        <div class="feature-desc" id="sliderDesc">Как на настоящей консультации юриста</div>
+      </div>
+      <div class="feature-dots" id="featureDots"></div>
+      <div class="features-list">
+        <span class="feature-tag highlight"><i class="fas fa-chart-line"></i> Оценка риска</span>
+        <span class="feature-tag"><i class="fas fa-file-alt"></i> Генерация заявления</span>
+        <span class="feature-tag"><i class="fas fa-calendar-week"></i> Таймлайн</span>
+        <span class="feature-tag"><i class="fas fa-paper-plane"></i> Лиды в Telegram</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="about-dev">
+    <div class="about-grid">
+      <img class="dev-photo" src="https://img.hhcdn.ru/photo/761428149.jpeg?t=1777474324&h=vFW-66iAGI7GRPoWk6MIGw" alt="Тони">
+      <div>
+        <p><strong>Привет, я Тони — разработчик цифровых инструментов для юридической сферы.</strong></p>
+        <p>Создаю точные калькуляторы, формы захвата лидов и CRM-интеграции. Работаю официально как самозанятый: по договору, с фиксированными сроками и гарантией.</p>
+        <p>Моя цель — не просто «вставить скрипт», а дать вам рабочий инструмент, который приносит заявки ежедневно.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-card"><div class="feature-icon"><i class="fas fa-brain"></i></div><h3>Умная логика</h3><p>Только релевантные вопросы</p></div>
+    <div class="feature-card"><div class="feature-icon"><i class="fas fa-chart-pie"></i></div><h3>Скоринг рисков</h3><p>По 127-ФЗ</p></div>
+    <div class="feature-card"><div class="feature-icon"><i class="fas fa-file-signature"></i></div><h3>Генератор документов</h3><p>Заявление + чек-лист</p></div>
+    <div class="feature-card"><div class="feature-icon"><i class="fas fa-timeline"></i></div><h3>Таймлайн</h3><p>План по дням</p></div>
+    <div class="feature-card"><div class="feature-icon"><i class="fas fa-envelope-open-text"></i></div><h3>Сбор заявок</h3><p>Лиды в Telegram</p></div>
+    <div class="feature-card"><div class="feature-icon"><i class="fas fa-palette"></i></div><h3>White Label</h3><p>Ваш брендинг</p></div>
+  </div>
+</div>
+
+<!-- Тарифы с затемнением -->
+<div class="tariffs-section" id="tariffs">
+  <div class="container">
+    <h2 class="section-title">Тарифы</h2>
+    <div class="tariffs-grid">
+      <div class="tariff-card"><h3>Базовый</h3><div class="tariff-price">6 900 ₽</div><ul class="tariff-features"><li><i class="fas fa-check-circle"></i> Полный функционал</li><li><i class="fas fa-code"></i> Установка на сайт</li><li><i class="fab fa-telegram"></i> Сбор заявок</li></ul><button class="tariff-btn" onclick="window.open('https://t.me/Tony_nsk','_blank')">Купить</button></div>
+      <div class="tariff-card popular"><div class="popular-badge">🔥 Хит</div><h3>White Label</h3><div class="tariff-price">14 900 ₽</div><ul class="tariff-features"><li><i class="fas fa-check-circle"></i> Всё из Базового</li><li><i class="fas fa-crown"></i> Ваш брендинг</li><li><i class="fas fa-plug"></i> Настройка под CRM</li><li><i class="fas fa-headset"></i> 1 месяц поддержки</li></ul><button class="tariff-btn" onclick="window.open('https://t.me/Tony_nsk','_blank')">Выбрать</button></div>
+      <div class="tariff-card"><h3>VIP</h3><div class="tariff-price">29 990 ₽</div><ul class="tariff-features"><li><i class="fas fa-check-circle"></i> Всё из White Label</li><li><i class="fas fa-chalkboard-user"></i> Интеграция с CRM</li><li><i class="fab fa-telegram-plane"></i> Telegram-бот</li><li><i class="fas fa-shield-alt"></i> 3 месяца поддержки</li></ul><button class="tariff-btn" onclick="window.open('https://t.me/Tony_nsk','_blank')">Обсудить</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <!-- Блок плюсов / преимуществ работы со мной -->
+  <div class="plus-section">
+    <h2 class="section-title">Почему выбирают меня</h2>
+    <div class="plus-grid">
+      <div class="plus-card">
+        <div class="plus-icon"><i class="fas fa-file-contract"></i></div>
+        <h3>Официально как самозанятый</h3>
+        <p>Работаю по договору, выдаю чеки, всё прозрачно для вашей бухгалтерии.</p>
+      </div>
+      <div class="plus-card">
+        <div class="plus-icon"><i class="fas fa-clock"></i></div>
+        <h3>Установка за 5 минут</h3>
+        <p>Одна строка кода — и калькулятор уже работает на вашем сайте.</p>
+      </div>
+      <div class="plus-card">
+        <div class="plus-icon"><i class="fas fa-chart-line"></i></div>
+        <h3>Рост конверсии от 30%</h3>
+        <p>Умный опросник вовлекает посетителей и собирает готовые лиды.</p>
+      </div>
+      <div class="plus-card">
+        <div class="plus-icon"><i class="fas fa-headset"></i></div>
+        <h3>Бесплатная поддержка</h3>
+        <p>Помогаю с настройкой и отвечаю на вопросы после установки.</p>
+      </div>
+      <div class="plus-card">
+        <div class="plus-icon"><i class="fas fa-sync-alt"></i></div>
+        <h3>Обновления под новые законы</h3>
+        <p>Актуализирую логику калькулятора при изменении 127-ФЗ.</p>
+      </div>
+      <div class="plus-card">
+        <div class="plus-icon"><i class="fas fa-mobile-alt"></i></div>
+        <h3>Адаптив под все устройства</h3>
+        <p>Отлично выглядит и работает на ПК, планшетах и телефонах.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Демо-калькулятор -->
+  <div class="demo-section" id="demo">
+    <h2 class="section-title"><i class="fas fa-flask"></i> Демо-версия калькулятора</h2>
+    <div class="glass-panel">
+      <div id="fullCalcContainer"></div>
+    </div>
+  </div>
+
+  <!-- Как подключить -->
+  <div style="padding: 4rem 0; border-top: 1px solid rgba(56,189,248,0.1);">
+    <h2 class="section-title">Как подключить?</h2>
+    <div class="steps">
+      <div><div class="step-num">1</div><h4>Выбираете тариф</h4></div>
+      <div><div class="step-num">2</div><h4>Оплачиваете</h4></div>
+      <div><div class="step-num">3</div><h4>Получаете код</h4></div>
+      <div><div class="step-num">4</div><h4>Вставляете на сайт</h4></div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <h2>Готовы увеличить поток клиентов?</h2>
+    <p>Калькулятор собирает заявки 24/7</p>
+    <div class="cta-buttons">
+      <a href="https://t.me/Tony_nsk" target="_blank" class="btn-primary"><i class="fab fa-telegram-plane"></i> Написать в Telegram</a>
+      <a href="https://t.me/Tony_nsk" target="_blank" class="btn-outline"><i class="fab fa-telegram"></i> @Tony_nsk</a>
+    </div>
+    <p style="margin-top: 1.5rem;">Почта: <a href="mailto:innet24@internet.ru" style="color:#60a5fa;">innet24@internet.ru</a></p>
+  </div>
+
+  <footer>
+    <p>© 2026 BANKROT.PRO — Готовые решения для юристов</p>
+    <p>@Tony_nsk | innet24@internet.ru</p>
+  </footer>
+</div>
+
+<script>
+  // Анимация преимуществ
+  const slides = [
+    { icon: '<i class="fas fa-list-ol"></i>', title: "6 шагов опроса", desc: "Как на настоящей консультации" },
+    { icon: '<i class="fas fa-chart-line"></i>', title: "Оценка риска 0-100%", desc: "На основе 127-ФЗ" },
+    { icon: '<i class="fas fa-file-alt"></i>', title: "Генерация документов", desc: "Заявление + чек-лист" },
+    { icon: '<i class="fas fa-calendar-week"></i>', title: "Таймлайн", desc: "План с реальными сроками" },
+    { icon: '<i class="fas fa-paper-plane"></i>', title: "Лид-форма", desc: "Заявки в Telegram" },
+    { icon: '<i class="fas fa-palette"></i>', title: "White Label", desc: "Ваш брендинг" }
+  ];
+
+  let currentSlide = 0;
+  const sliderIcon = document.getElementById('sliderIcon');
+  const sliderTitle = document.getElementById('sliderTitle');
+  const sliderDesc = document.getElementById('sliderDesc');
+  const dotsContainer = document.getElementById('featureDots');
+
+  slides.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.classList.add('dot');
+    if (i === 0) dot.classList.add('active');
+    dot.onclick = () => { currentSlide = i; updateSlide(); };
+    dotsContainer.appendChild(dot);
+  });
+
+  function updateSlide() {
+    const slide = slides[currentSlide];
+    sliderIcon.innerHTML = slide.icon;
+    sliderTitle.textContent = slide.title;
+    sliderDesc.textContent = slide.desc;
+    document.querySelectorAll('.dot').forEach((dot, i) => {
+      dot.classList.toggle('active', i === currentSlide);
     });
-    
-    function updateSlide() {
-      const slide = slides[currentSlide];
-      sliderIcon.innerHTML = slide.icon;
-      sliderTitle.textContent = slide.title;
-      sliderDesc.textContent = slide.desc;
-      document.querySelectorAll('.dot').forEach((dot, i) => dot.classList.toggle('active', i === currentSlide));
-    }
-    setInterval(() => { currentSlide = (currentSlide + 1) % slides.length; updateSlide(); }, 3500);
-    updateSlide();
+  }
+  setInterval(() => { currentSlide = (currentSlide + 1) % slides.length; updateSlide(); }, 3500);
+  updateSlide();
 
-    // Полный калькулятор
-    let fullAnswers = {}, fullStep = 0;
+  // ========== РАБОЧИЙ КАЛЬКУЛЯТОР ==========
+  document.addEventListener('DOMContentLoaded', function() {
+    let fullAnswers = {};
+    let fullStep = 0;
+
     const fullQuestions = [
-      { id: "fullName", text: "Ваши ФИО", type: "text", placeholder: "Иванов Иван Иванович" },
+      { id: "fullName", text: "Ваши ФИО (для документов)", type: "text", placeholder: "Иванов Иван Иванович" },
       { id: "debt", text: "Сколько у вас долгов?", type: "select", options: ["До 50 000 ₽", "50 000 – 300 000 ₽", "300 000 – 700 000 ₽", "Более 700 000 ₽"] },
-      { id: "delay", text: "Просрочка больше 90 дней?", type: "select", options: ["Да", "Нет"] },
-      { id: "income", text: "Официальный доход?", type: "select", options: ["Ниже ПМ", "Выше ПМ"] },
-      { id: "property", text: "Имущество кроме жилья?", type: "select", options: ["Нет", "Да, авто", "Да, дача"] },
-      { id: "alimony", text: "Несписываемые долги?", type: "select", options: ["Нет", "Алименты", "Штрафы"] }
+      { id: "delay", text: "Есть просрочка платежей больше 90 дней?", type: "select", options: ["Да", "Нет"] },
+      { id: "income", text: "Какой у вас официальный доход?", type: "select", options: ["Ниже прожиточного минимума", "Выше прожиточного минимума"] },
+      { id: "property", text: "Есть ли у вас имущество кроме единственного жилья?", type: "select", options: ["Нет, только квартира/дом", "Да, автомобиль", "Да, дача/земля"] },
+      { id: "alimony", text: "Есть несписываемые долги? (алименты, штрафы)", type: "select", options: ["Нет", "Да, алименты", "Да, штрафы/налоги"] }
     ];
 
-    function renderFull() {
+    function renderFullCalculator() {
       const container = document.getElementById('fullCalcContainer');
       if (!container) return;
+
       if (fullStep >= fullQuestions.length) {
         let risk = 0;
         if (fullAnswers.debt === "До 50 000 ₽") risk += 95;
         else if (fullAnswers.debt === "50 000 – 300 000 ₽") risk += 15;
         if (fullAnswers.delay === "Нет") risk += 45;
-        if (fullAnswers.income === "Выше ПМ") risk += 20;
-        if (fullAnswers.property && fullAnswers.property !== "Нет") risk += 30;
+        if (fullAnswers.income === "Выше прожиточного минимума") risk += 20;
+        if (fullAnswers.property && fullAnswers.property !== "Нет, только квартира/дом") risk += 30;
         if (fullAnswers.alimony && fullAnswers.alimony !== "Нет") risk += 25;
         risk = Math.min(100, Math.max(0, risk));
-        const isSimple = (fullAnswers.debt === "50 000 – 300 000 ₽" && fullAnswers.delay === "Да" && fullAnswers.income === "Ниже ПМ" && fullAnswers.property === "Нет");
-        container.innerHTML = `<div style="background:#0a0f1f;border-radius:1.6rem;padding:1.5rem;border-left:4px solid #3b82f6;">
-          <h3><i class="fas fa-chart-simple"></i> Результат</h3>
-          <p style="font-size:1.2rem;font-weight:700">Риск отказа: ${risk}%</p>
-          <p>${risk < 30 ? '🟢 Хорошие шансы' : risk < 65 ? '🟡 Средний риск' : '🔴 Высокий риск'}</p>
-          ${isSimple ? '<p style="background:#1e3a8a;padding:0.8rem;border-radius:1rem"><i class="fas fa-check-circle"></i> Вам подходит внесудебное банкротство через МФЦ</p>' : ''}
-          <button id="restartFull" style="background:#2563eb;border:none;width:100%;padding:0.8rem;border-radius:2rem;color:white;cursor:pointer;margin-top:1rem"><i class="fas fa-rotate-right"></i> Заново</button>
-          <div style="background:#0c1122;border-radius:1.4rem;padding:1.2rem;margin-top:1.2rem">
-            <label><i class="fas fa-phone-alt"></i> Консультация юриста</label>
-            <input type="text" id="leadNameFull" placeholder="Имя" style="width:100%;background:#0f1322;border:1px solid #252e45;border-radius:1.2rem;padding:0.8rem;color:white;margin:0.5rem 0">
-            <input type="tel" id="leadPhoneFull" placeholder="Телефон" style="width:100%;background:#0f1322;border:1px solid #252e45;border-radius:1.2rem;padding:0.8rem;color:white">
-            <button id="submitLeadFull" style="background:#2b6e3c;width:100%;padding:0.8rem;border-radius:2rem;color:white;border:none;cursor:pointer;margin-top:0.8rem"><i class="fab fa-telegram-plane"></i> Отправить</button>
+
+        const isSimple = (fullAnswers.debt === "50 000 – 300 000 ₽" && fullAnswers.delay === "Да" && fullAnswers.income === "Ниже прожиточного минимума" && fullAnswers.property === "Нет, только квартира/дом");
+
+        container.innerHTML = `<div class="result-card">
+          <h3><i class="fas fa-chart-simple"></i> Результат оценки</h3>
+          <p style="font-size: 1.3rem; font-weight: 700; margin: 1rem 0;">Риск отказа в списании: ${risk}%</p>
+          <p>${risk < 30 ? '🟢 Хорошие шансы на списание долгов' : risk < 65 ? '🟡 Средний риск, рекомендуется консультация юриста' : '🔴 Высокий риск, необходима подготовка'}</p>
+          ${isSimple ? '<p style="background: #1e3a8a; padding: 0.8rem; border-radius: 1rem; margin-top: 1rem;"><i class="fas fa-check-circle"></i> Вам подходит внесудебное банкротство через МФЦ</p>' : ''}
+          <button class="calc-next" id="restartFullBtn"><i class="fas fa-rotate-right"></i> Пройти заново</button>
+          <div class="lead-form">
+            <label><i class="fas fa-phone-alt"></i> Получите консультацию юриста</label>
+            <input type="text" id="leadNameFull" placeholder="Ваше имя">
+            <input type="tel" id="leadPhoneFull" placeholder="Телефон">
+            <button id="submitFullLead" class="btn-success"><i class="fab fa-telegram-plane"></i> Отправить заявку</button>
           </div>
         </div>`;
-        document.getElementById('restartFull')?.onclick = () => { fullAnswers = {}; fullStep = 0; renderFull(); };
-        document.getElementById('submitLeadFull')?.onclick = () => { alert("Спасибо! Специалист свяжется."); };
+
+        document.getElementById('restartFullBtn')?.addEventListener('click', () => {
+          fullAnswers = {};
+          fullStep = 0;
+          renderFullCalculator();
+        });
+        document.getElementById('submitFullLead')?.addEventListener('click', () => {
+          const name = document.getElementById('leadNameFull')?.value.trim();
+          const phone = document.getElementById('leadPhoneFull')?.value.trim();
+          if (!name || !phone) { alert("Укажите имя и телефон"); return; }
+          alert(`Спасибо, ${name}! Специалист свяжется с вами по номеру ${phone}`);
+        });
         return;
       }
+
       const q = fullQuestions[fullStep];
       let html = `<div class="step-title">${q.text} <span class="step-counter">${fullStep+1}/${fullQuestions.length}</span></div>`;
+
       if (q.type === 'select') {
         html += `<div class="options-grid">`;
-        q.options.forEach(opt => { html += `<div class="option-btn" data-value="${opt}">${opt}</div>`; });
+        q.options.forEach(opt => {
+          const isSelected = (fullAnswers[q.id] === opt);
+          html += `<div class="option-btn ${isSelected ? 'selected' : ''}" data-value="${opt}">${opt}</div>`;
+        });
         html += `</div>`;
       } else {
-        html += `<input type="text" id="fullTextInp" placeholder="${q.placeholder}" style="width:100%;background:#0f1322;border:1px solid #252e45;border-radius:1rem;padding:0.8rem;color:white">`;
+        html += `<input type="text" id="fullTextInp" placeholder="${q.placeholder}" value="${fullAnswers[q.id] || ''}" style="width:100%; background:#0f1322; border:1px solid #252e45; border-radius:1rem; padding:0.8rem; color:white;">`;
       }
-      html += `<button id="fullNextBtn" style="background:#2563eb;width:100%;padding:0.8rem;border-radius:2rem;color:white;border:none;cursor:pointer;margin-top:1.5rem">Продолжить <i class="fas fa-arrow-right"></i></button>`;
+
+      html += `<button class="calc-next" id="fullNextBtn">Продолжить <i class="fas fa-arrow-right"></i></button>`;
       container.innerHTML = html;
+
       document.querySelectorAll('#fullCalcContainer .option-btn').forEach(btn => {
-        btn.onclick = () => { fullAnswers[q.id] = btn.dataset.value; fullStep++; renderFull(); };
+        btn.addEventListener('click', () => {
+          fullAnswers[q.id] = btn.dataset.value;
+          fullStep++;
+          renderFullCalculator();
+        });
       });
-      document.getElementById('fullTextInp')?.addEventListener('input', (e) => { fullAnswers[q.id] = e.target.value; });
+
+      const textInput = document.getElementById('fullTextInp');
+      if (textInput) {
+        textInput.addEventListener('input', (e) => { fullAnswers[q.id] = e.target.value; });
+      }
+
       document.getElementById('fullNextBtn')?.addEventListener('click', () => {
         if (q.type === 'select' && !fullAnswers[q.id]) { alert("Выберите вариант"); return; }
-        if (q.type === 'text' && (!fullAnswers[q.id] || !fullAnswers[q.id].trim())) { alert("Заполните поле"); return; }
-        fullStep++; renderFull();
+        if (q.type === 'text' && (!fullAnswers[q.id] || fullAnswers[q.id].trim() === '')) { alert("Заполните поле"); return; }
+        fullStep++;
+        renderFullCalculator();
       });
     }
-    renderFull();
-  </script>
+
+    renderFullCalculator();
+  });
+</script>
 </body>
 </html>
