@@ -7,6 +7,7 @@
   <link rel="icon" type="image/png" href="favicon.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     * {
       margin: 0;
@@ -21,7 +22,6 @@
       line-height: 1.5;
     }
 
-    /* Глобальный фон на всю ширину */
     body::before {
       content: '';
       position: fixed;
@@ -50,7 +50,6 @@
       }
     }
 
-    /* Тарифы с фоном и затемнением как у других блоков */
     .tariffs-section {
       position: relative;
       margin: 0 -100vw;
@@ -380,7 +379,6 @@
       color: white;
     }
 
-    /* Блок плюсов / преимуществ */
     .plus-section {
       padding: 4rem 0;
       border-top: 1px solid rgba(56, 189, 248, 0.1);
@@ -431,6 +429,217 @@
       margin-top: 2rem;
     }
 
+    .progress-track {
+      margin-bottom: 1.8rem;
+    }
+    .step-badge {
+      background: #1e293b;
+      border-radius: 2rem;
+      padding: 0.3rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #94a3b8;
+    }
+    .step-badge.active-step {
+      background: #2563eb;
+      color: white;
+      box-shadow: 0 0 6px #3b82f6;
+    }
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      margin: 1rem 0 1rem 0;
+    }
+    .option-btn {
+      background: #0f1322;
+      border: 1px solid #2d3a5e;
+      border-radius: 1.4rem;
+      padding: 1rem 1.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 500;
+    }
+    .option-btn:hover {
+      background: #1a1f35;
+      border-color: #3b82f6;
+      transform: translateX(6px);
+    }
+    .option-btn.selected {
+      background: linear-gradient(95deg, #1e3a8a, #2563eb);
+      border-color: #60a5fa;
+      color: white;
+      box-shadow: 0 6px 14px rgba(37, 99, 235, 0.2);
+    }
+    .inline-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    input {
+      width: 100%;
+      background: #0f1322;
+      border: 1px solid #2d3a5e;
+      border-radius: 1.2rem;
+      padding: 1rem 1.5rem;
+      font-size: 1rem;
+      color: #f1f5f9;
+      outline: none;
+      margin: 0.5rem 0;
+      transition: 0.2s;
+    }
+    input:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+    @media (max-width: 600px) {
+      .inline-fields {
+        grid-template-columns: 1fr;
+      }
+    }
+    .calc-next {
+      background: linear-gradient(95deg, #2563eb, #1e40af);
+      border: none;
+      width: 100%;
+      padding: 1rem;
+      border-radius: 2rem;
+      color: white;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+    }
+    .calc-next:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+      box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.4);
+    }
+    .result-card {
+      background: #0a0f1f;
+      border-radius: 1.6rem;
+      padding: 1.8rem;
+      border-left: 5px solid #3b82f6;
+    }
+    .risk-meter {
+      background: #111725;
+      border-radius: 1rem;
+      height: 14px;
+      width: 100%;
+      margin: 1rem 0 1rem 0;
+      overflow: hidden;
+    }
+    .risk-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #10b981, #facc15, #ef4444);
+      transition: width 0.6s ease;
+    }
+    .badge {
+      display: inline-block;
+      background: #1e3a8a;
+      border-radius: 2rem;
+      padding: 0.3rem 1rem;
+      font-size: 0.75rem;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .flex-btns {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+    .btn-pdf, .btn-restart {
+      flex: 1;
+      background: #334155;
+      border: none;
+      padding: 0.8rem;
+      border-radius: 2rem;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: 0.2s;
+    }
+    .btn-pdf:hover, .btn-restart:hover {
+      background: #475569;
+      transform: scale(0.98);
+    }
+    .lead-form {
+      background: #0c1122;
+      border-radius: 1.2rem;
+      padding: 1.2rem;
+      margin-top: 1.5rem;
+    }
+    .lead-form input {
+      margin-bottom: 0.8rem;
+    }
+    .btn-success {
+      background: #2b6e3c;
+      width: 100%;
+      padding: 0.9rem;
+      border-radius: 2rem;
+      color: white;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+    }
+    .btn-success:hover {
+      background: #1f5a2e;
+      transform: scale(0.99);
+    }
+    hr {
+      margin: 1rem 0;
+      border-color: #1e293b;
+    }
+    .info-tip {
+      font-size: 0.8rem;
+      color: #7e8aa2;
+      margin-top: 0.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    ul {
+      padding-left: 1.4rem;
+      margin: 0.5rem 0;
+    }
+    li {
+      margin: 0.5rem 0;
+    }
+    .back-btn {
+      background: transparent;
+      border: 1px solid #334155;
+      border-radius: 2rem;
+      padding: 0.6rem 1.2rem;
+      color: #cbd5e1;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: 0.2s;
+    }
+    .back-btn:hover {
+      background: #1e293b;
+      color: white;
+    }
     .step-title {
       font-size: 1.3rem;
       font-weight: 600;
@@ -440,87 +649,13 @@
       color: transparent;
       margin-bottom: 1rem;
     }
-
-    .step-counter {
-      font-size: 0.75rem;
-      background: #1e293b;
-      padding: 0.2rem 0.6rem;
-      border-radius: 2rem;
+    .step-desc {
       color: #94a3b8;
-      margin-left: 0.5rem;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+      border-left: 3px solid #3b82f6;
+      padding-left: 1rem;
     }
-
-    .options-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .option-btn {
-      background: #0f1322;
-      border: 1px solid #2d3a5e;
-      border-radius: 1rem;
-      padding: 0.8rem 1rem;
-      cursor: pointer;
-    }
-
-    .option-btn:hover {
-      background: #1a1f35;
-      border-color: #3b82f6;
-    }
-
-    .option-btn.selected {
-      background: linear-gradient(95deg, #1e3a8a, #2563eb);
-      color: white;
-    }
-
-    .calc-next {
-      background: linear-gradient(95deg, #2563eb, #1e40af);
-      border: none;
-      width: 100%;
-      padding: 0.8rem;
-      border-radius: 2rem;
-      color: white;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 1rem;
-    }
-
-    .result-card {
-      background: #0a0f1f;
-      border-radius: 1.6rem;
-      padding: 1.5rem;
-      border-left: 4px solid #3b82f6;
-    }
-
-    .lead-form {
-      background: #0c1122;
-      border-radius: 1rem;
-      padding: 1rem;
-      margin-top: 1rem;
-    }
-
-    .lead-form input {
-      width: 100%;
-      background: #0f1322;
-      border: 1px solid #252e45;
-      border-radius: 0.8rem;
-      padding: 0.7rem;
-      color: white;
-      margin-top: 0.5rem;
-    }
-
-    .btn-success {
-      background: #2b6e3c;
-      width: 100%;
-      padding: 0.7rem;
-      border-radius: 2rem;
-      color: white;
-      border: none;
-      cursor: pointer;
-      margin-top: 0.8rem;
-    }
-
     .steps {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -528,7 +663,6 @@
       text-align: center;
       padding: 4rem 0;
     }
-
     .step-num {
       width: 48px;
       height: 48px;
@@ -540,13 +674,11 @@
       margin: 0 auto 1rem;
       font-weight: 700;
     }
-
     .cta {
       text-align: center;
       padding: 4rem 0;
       border-top: 1px solid rgba(56, 189, 248, 0.1);
     }
-
     .cta-buttons {
       display: flex;
       gap: 1rem;
@@ -554,7 +686,6 @@
       flex-wrap: wrap;
       margin-top: 2rem;
     }
-
     .btn-primary {
       background: linear-gradient(95deg, #2563eb, #1e40af);
       padding: 0.9rem 2rem;
@@ -564,7 +695,6 @@
       font-weight: 600;
       display: inline-block;
     }
-
     .btn-outline {
       border: 2px solid #3b82f6;
       padding: 0.9rem 2rem;
@@ -574,13 +704,25 @@
       font-weight: 600;
       display: inline-block;
     }
-
     footer {
       text-align: center;
       padding: 2rem 0;
       font-size: 0.75rem;
       color: #5b6a8c;
       border-top: 1px solid rgba(56, 189, 248, 0.1);
+    }
+    .lawyer-badge {
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      border-radius: 2rem;
+      padding: 0.3rem 1rem;
+      font-size: 0.7rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .timeline-lawyer {
+      background: linear-gradient(135deg, #1e3a8a, #2e1065);
+      border-left: 4px solid #f97316;
     }
   </style>
 </head>
@@ -606,15 +748,15 @@
     <div class="animated-features">
       <div class="feature-slider" id="featureSlider">
         <div class="feature-icon-big" id="sliderIcon"><i class="fas fa-list-ol"></i></div>
-        <div class="feature-text" id="sliderTitle">6 шагов опроса</div>
+        <div class="feature-text" id="sliderTitle">7 шагов опроса</div>
         <div class="feature-desc" id="sliderDesc">Как на настоящей консультации юриста</div>
       </div>
       <div class="feature-dots" id="featureDots"></div>
       <div class="features-list">
         <span class="feature-tag highlight"><i class="fas fa-chart-line"></i> Оценка риска</span>
-        <span class="feature-tag"><i class="fas fa-file-alt"></i> Генерация заявления</span>
-        <span class="feature-tag"><i class="fas fa-calendar-week"></i> Таймлайн</span>
-        <span class="feature-tag"><i class="fas fa-paper-plane"></i> Лиды в Telegram</span>
+        <span class="feature-tag"><i class="fas fa-file-alt"></i> Чек-лист документов</span>
+        <span class="feature-tag"><i class="fas fa-gavel"></i> Сопровождение в суде</span>
+        <span class="feature-tag"><i class="fas fa-paper-plane"></i> Лиды</span>
       </div>
     </div>
   </div>
@@ -633,14 +775,13 @@
   <div class="features-grid">
     <div class="feature-card"><div class="feature-icon"><i class="fas fa-brain"></i></div><h3>Умная логика</h3><p>Только релевантные вопросы</p></div>
     <div class="feature-card"><div class="feature-icon"><i class="fas fa-chart-pie"></i></div><h3>Скоринг рисков</h3><p>По 127-ФЗ</p></div>
-    <div class="feature-card"><div class="feature-icon"><i class="fas fa-file-signature"></i></div><h3>Генератор документов</h3><p>Заявление + чек-лист</p></div>
-    <div class="feature-card"><div class="feature-icon"><i class="fas fa-timeline"></i></div><h3>Таймлайн</h3><p>План по дням</p></div>
+    <div class="feature-card"><div class="feature-icon"><i class="fas fa-file-signature"></i></div><h3>Чек-лист документов</h3><p>Под персональную ситуацию</p></div>
+    <div class="feature-card"><div class="feature-icon"><i class="fas fa-gavel"></i></div><h3>Сопровождение в суде</h3><p>Полное юридическое ведение</p></div>
     <div class="feature-card"><div class="feature-icon"><i class="fas fa-envelope-open-text"></i></div><h3>Сбор заявок</h3><p>Лиды в Telegram</p></div>
     <div class="feature-card"><div class="feature-icon"><i class="fas fa-palette"></i></div><h3>White Label</h3><p>Ваш брендинг</p></div>
   </div>
 </div>
 
-<!-- Тарифы с затемнением -->
 <div class="tariffs-section" id="tariffs">
   <div class="container">
     <h2 class="section-title">Тарифы</h2>
@@ -653,44 +794,18 @@
 </div>
 
 <div class="container">
-  <!-- Блок плюсов / преимуществ работы со мной -->
   <div class="plus-section">
     <h2 class="section-title">Почему выбирают меня</h2>
     <div class="plus-grid">
-      <div class="plus-card">
-        <div class="plus-icon"><i class="fas fa-file-contract"></i></div>
-        <h3>Официально как самозанятый</h3>
-        <p>Работаю по договору, выдаю чеки, всё прозрачно для вашей бухгалтерии.</p>
-      </div>
-      <div class="plus-card">
-        <div class="plus-icon"><i class="fas fa-clock"></i></div>
-        <h3>Установка за 5 минут</h3>
-        <p>Одна строка кода — и калькулятор уже работает на вашем сайте.</p>
-      </div>
-      <div class="plus-card">
-        <div class="plus-icon"><i class="fas fa-chart-line"></i></div>
-        <h3>Рост конверсии от 30%</h3>
-        <p>Умный опросник вовлекает посетителей и собирает готовые лиды.</p>
-      </div>
-      <div class="plus-card">
-        <div class="plus-icon"><i class="fas fa-headset"></i></div>
-        <h3>Бесплатная поддержка</h3>
-        <p>Помогаю с настройкой и отвечаю на вопросы после установки.</p>
-      </div>
-      <div class="plus-card">
-        <div class="plus-icon"><i class="fas fa-sync-alt"></i></div>
-        <h3>Обновления под новые законы</h3>
-        <p>Актуализирую логику калькулятора при изменении 127-ФЗ.</p>
-      </div>
-      <div class="plus-card">
-        <div class="plus-icon"><i class="fas fa-mobile-alt"></i></div>
-        <h3>Адаптив под все устройства</h3>
-        <p>Отлично выглядит и работает на ПК, планшетах и телефонах.</p>
-      </div>
+      <div class="plus-card"><div class="plus-icon"><i class="fas fa-file-contract"></i></div><h3>Официально как самозанятый</h3><p>Работаю по договору, выдаю чеки, всё прозрачно для вашей бухгалтерии.</p></div>
+      <div class="plus-card"><div class="plus-icon"><i class="fas fa-clock"></i></div><h3>Установка за 5 минут</h3><p>Одна строка кода — и калькулятор уже работает на вашем сайте.</p></div>
+      <div class="plus-card"><div class="plus-icon"><i class="fas fa-chart-line"></i></div><h3>Рост конверсии от 30%</h3><p>Умный опросник вовлекает посетителей и собирает готовые лиды.</p></div>
+      <div class="plus-card"><div class="plus-icon"><i class="fas fa-headset"></i></div><h3>Бесплатная поддержка</h3><p>Помогаю с настройкой и отвечаю на вопросы после установки.</p></div>
+      <div class="plus-card"><div class="plus-icon"><i class="fas fa-sync-alt"></i></div><h3>Обновления под новые законы</h3><p>Актуализирую логику калькулятора при изменении 127-ФЗ.</p></div>
+      <div class="plus-card"><div class="plus-icon"><i class="fas fa-mobile-alt"></i></div><h3>Адаптив под все устройства</h3><p>Отлично выглядит и работает на ПК, планшетах и телефонах.</p></div>
     </div>
   </div>
 
-  <!-- Демо-калькулятор -->
   <div class="demo-section" id="demo">
     <h2 class="section-title"><i class="fas fa-flask"></i> Демо-версия калькулятора</h2>
     <div class="glass-panel">
@@ -698,7 +813,6 @@
     </div>
   </div>
 
-  <!-- Как подключить -->
   <div style="padding: 4rem 0; border-top: 1px solid rgba(56,189,248,0.1);">
     <h2 class="section-title">Как подключить?</h2>
     <div class="steps">
@@ -709,7 +823,6 @@
     </div>
   </div>
 
-  <!-- CTA -->
   <div class="cta">
     <h2>Готовы увеличить поток клиентов?</h2>
     <p>Калькулятор собирает заявки 24/7</p>
@@ -729,12 +842,11 @@
 <script>
   // Анимация преимуществ
   const slides = [
-    { icon: '<i class="fas fa-list-ol"></i>', title: "6 шагов опроса", desc: "Как на настоящей консультации" },
+    { icon: '<i class="fas fa-list-ol"></i>', title: "7 шагов опроса", desc: "Как на настоящей консультации" },
     { icon: '<i class="fas fa-chart-line"></i>', title: "Оценка риска 0-100%", desc: "На основе 127-ФЗ" },
-    { icon: '<i class="fas fa-file-alt"></i>', title: "Генерация документов", desc: "Заявление + чек-лист" },
-    { icon: '<i class="fas fa-calendar-week"></i>', title: "Таймлайн", desc: "План с реальными сроками" },
-    { icon: '<i class="fas fa-paper-plane"></i>', title: "Лид-форма", desc: "Заявки в Telegram" },
-    { icon: '<i class="fas fa-palette"></i>', title: "White Label", desc: "Ваш брендинг" }
+    { icon: '<i class="fas fa-file-alt"></i>', title: "Чек-лист документов", desc: "Под вашу ситуацию" },
+    { icon: '<i class="fas fa-gavel"></i>', title: "Сопровождение в суде", desc: "Полное юридическое ведение" },
+    { icon: '<i class="fas fa-paper-plane"></i>', title: "Лид-форма", desc: "Заявки в Telegram" }
   ];
 
   let currentSlide = 0;
@@ -763,104 +875,314 @@
   setInterval(() => { currentSlide = (currentSlide + 1) % slides.length; updateSlide(); }, 3500);
   updateSlide();
 
-  // ========== РАБОЧИЙ КАЛЬКУЛЯТОР ==========
-  document.addEventListener('DOMContentLoaded', function() {
-    let fullAnswers = {};
-    let fullStep = 0;
+  // Форматирование телефона
+  function formatPhone(input) {
+    let value = input.value.replace(/\D/g, '');
+    if (value.length > 11) value = value.slice(0, 11);
+    let formatted = '';
+    if (value.length > 0) {
+      formatted = '+7';
+      if (value.length > 1) formatted += ' (' + value.slice(1, 4);
+      if (value.length > 4) formatted += ') ' + value.slice(4, 7);
+      if (value.length > 7) formatted += '-' + value.slice(7, 9);
+      if (value.length > 9) formatted += '-' + value.slice(9, 11);
+    }
+    input.value = formatted;
+  }
 
-    const fullQuestions = [
-      { id: "fullName", text: "Ваши ФИО (для документов)", type: "text", placeholder: "Иванов Иван Иванович" },
-      { id: "debt", text: "Сколько у вас долгов?", type: "select", options: ["До 50 000 ₽", "50 000 – 300 000 ₽", "300 000 – 700 000 ₽", "Более 700 000 ₽"] },
-      { id: "delay", text: "Есть просрочка платежей больше 90 дней?", type: "select", options: ["Да", "Нет"] },
-      { id: "income", text: "Какой у вас официальный доход?", type: "select", options: ["Ниже прожиточного минимума", "Выше прожиточного минимума"] },
-      { id: "property", text: "Есть ли у вас имущество кроме единственного жилья?", type: "select", options: ["Нет, только квартира/дом", "Да, автомобиль", "Да, дача/земля"] },
-      { id: "alimony", text: "Есть несписываемые долги? (алименты, штрафы)", type: "select", options: ["Нет", "Да, алименты", "Да, штрафы/налоги"] }
+  // КАЛЬКУЛЯТОР
+  let currentStep = 0;   
+  let answers = {};
+
+  const debtRanges = [
+    { label: "до 50 000 ₽", value: "less_50k", min: 0, max: 49999, display: "до 50 000 ₽" },
+    { label: "50 000 ₽ – 300 000 ₽", value: "50k_300k", min: 50000, max: 300000, display: "50 000 – 300 000 ₽" },
+    { label: "300 000 ₽ – 700 000 ₽", value: "300k_700k", min: 300000, max: 700000, display: "300 000 – 700 000 ₽" },
+    { label: "700 000 ₽ – 1 500 000 ₽", value: "700k_1_5m", min: 700000, max: 1500000, display: "700 000 – 1 500 000 ₽" },
+    { label: "более 1 500 000 ₽", value: "more_1_5m", min: 1500000, max: 100000000, display: "более 1 500 000 ₽" }
+  ];
+
+  const otherQuestions = [
+    { id: "delay", text: "Просрочка по кредитам или займам больше 90 дней?", desc: "Это одно из ключевых условий для банкротства", options: ["✅ Да, есть просрочка от 3 месяцев", "❌ Нет, плачу вовремя"] },
+    { id: "income", text: "Ваш официальный доход", desc: "Официальная зарплата или подтверждённый доход", options: ["📉 Ниже прожиточного минимума", "📈 Выше прожиточного минимума"] },
+    { id: "property", text: "Какое имущество у вас есть (кроме единственного жилья)?", desc: "То, что могут продать приставы", options: ["🏠 Только единственная квартира/дом", "🚗 Есть автомобиль", "🌳 Дача или земельный участок", "🏢 Доля в бизнесе"] },
+    { id: "alimony", text: "Есть ли долги, которые нельзя списать?", desc: "Алименты, штрафы ГИБДД, налоги, ущерб", options: ["✅ Нет, обычные кредиты", "⚠️ Алименты", "⚠️ Штрафы или налоги"] },
+    { id: "court", text: "Кредиторы уже подали в суд?", desc: "Судебные приказы или решения ускоряют процесс", options: ["⛔ Нет, ещё нет", "📄 Есть судебный приказ", "⚖️ Есть решение суда"] },
+    { id: "suspicious", text: "Были ли подозрительные сделки за последний год?", desc: "Продажа авто, дарение квартиры, крупные переводы родным", options: ["✅ Нет, всё обычное", "💸 Продажа имущества", "🎁 Дарение близким", "🔄 Крупные переводы"] },
+    { id: "region", text: "Ваш регион проживания", desc: "От этого зависит процедура и пилотные проекты МФЦ", options: ["🏙️ Москва, Санкт-Петербург, Татарстан (пилот)", "🌍 Другой регион РФ"] }
+  ];
+
+  const totalQuestions = 1 + otherQuestions.length;
+  
+  function getCurrentStepNumber() {
+    if (currentStep === 0) return 1;
+    if (currentStep <= otherQuestions.length) return currentStep + 1;
+    return totalQuestions + 1;
+  }
+
+  function displayProgress() {
+    const stepNum = getCurrentStepNumber();
+    const isResult = (currentStep > otherQuestions.length);
+    let percent = 0;
+    if (!isResult) percent = Math.round((stepNum / totalQuestions) * 100);
+    else percent = 100;
+    return `<div class="progress-track">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+                <span class="step-badge ${currentStep === 0 ? 'active-step' : ''}">📋 Шаг 1: Данные</span>
+                <span class="step-badge ${currentStep >= 1 && currentStep <= otherQuestions.length ? 'active-step' : ''}">🧠 Шаг ${currentStep+1} из ${totalQuestions}</span>
+                <span class="step-badge ${isResult ? 'active-step' : ''}">📊 Результат</span>
+              </div>
+              <div style="background:#1e293b; border-radius: 30px; height: 6px; width: 100%;">
+                <div style="background:#3b82f6; width: ${percent}%; height: 6px; border-radius: 30px; transition:0.3s;"></div>
+              </div>
+            </div>`;
+  }
+
+  function getNumericDebt() {
+    const rangeKey = answers.debtRange;
+    if (!rangeKey) return 0;
+    const found = debtRanges.find(r => r.value === rangeKey);
+    if (!found) return 0;
+    if (rangeKey === "less_50k") return 25000;
+    if (rangeKey === "more_1_5m") return 1800000;
+    return (found.min + found.max) / 2;
+  }
+
+  function calculateRisk() {
+    let risk = 0;
+    const debtNum = getNumericDebt();
+    if (debtNum < 50000) risk += 90;
+    else if (debtNum >= 50000 && debtNum < 300000) risk += 10;
+    else if (debtNum >= 300000) risk += 5;
+    if (answers.delay && answers.delay.includes("Нет")) risk += 48;
+    if (answers.income && answers.income.includes("Выше")) risk += 22;
+    if (answers.property && answers.property !== "🏠 Только единственная квартира/дом") risk += 30;
+    if (answers.alimony && answers.alimony !== "✅ Нет, обычные кредиты") risk += 28;
+    if (answers.court && answers.court !== "⛔ Нет, ещё нет") risk += 18;
+    if (answers.suspicious && answers.suspicious !== "✅ Нет, всё обычное") risk += 35;
+    return Math.min(100, Math.max(0, risk));
+  }
+
+  function determineScenario() {
+    const debtNum = getNumericDebt();
+    const isDelayGood = answers.delay && answers.delay.includes("Да");
+    const isLowIncome = answers.income && answers.income.includes("Ниже");
+    const hasNoExtraProperty = answers.property === "🏠 Только единственная квартира/дом";
+    const isMfcPossible = (debtNum >= 50000 && debtNum <= 500000 && isDelayGood && isLowIncome && hasNoExtraProperty);
+    return isMfcPossible ? "mfc" : "court";
+  }
+
+  function getDocumentChecklist() {
+    const isMFC = determineScenario() === "mfc";
+    const base = isMFC ? [
+      "🆔 Паспорт РФ (копии страниц)",
+      "📄 ИНН, СНИЛС",
+      "📋 Список всех кредиторов с точными суммами",
+      "📉 Документы о доходах ниже ПМ",
+      "✍️ Заявление в МФЦ"
+    ] : [
+      "🆔 Паспорт и копии",
+      "📄 ИНН, СНИЛС",
+      "📋 Расширенный список кредиторов",
+      "🏦 Выписки по счетам (3 года)",
+      "💼 Справка 2-НДФЛ за 3 года",
+      "🏠 Документы на всё имущество",
+      "💍 Свидетельство о браке/разводе",
+      "💰 Госпошлина 300 ₽"
     ];
+    if (answers.suspicious && answers.suspicious !== "✅ Нет, всё обычное") base.push("🔍 Документы по сделкам за 12 месяцев");
+    return base;
+  }
 
-    function renderFullCalculator() {
-      const container = document.getElementById('fullCalcContainer');
-      if (!container) return;
+  // НОВЫЙ ТАЙМЛАЙН С УПОРОМ НА ЮРИСТА И СОПРОВОЖДЕНИЕ
+  function getTimeline() {
+    if (determineScenario() === "mfc") {
+      return [
+        { day: "День 1-2", title: "📞 Обращение к юристу", desc: "Бесплатная консультация, анализ ситуации, проверка условий для МФЦ" },
+        { day: "День 3-5", title: "📋 Подготовка документов", desc: "Юрист помогает собрать пакет: паспорт, ИНН, СНИЛС, список долгов" },
+        { day: "День 6-7", title: "📄 Подача в МФЦ", desc: "Юрист сопровождает подачу заявления, проверяет правильность заполнения" },
+        { day: "180 дней", title: "⚖️ Списание долгов", desc: "Автоматическое освобождение от обязательств, контроль юриста на всех этапах" }
+      ];
+    }
+    return [
+      { day: "День 1-2", title: "📞 Обращение к юристу", desc: "Первичная консультация, анализ долговой нагрузки, оценка перспектив банкротства" },
+      { day: "День 3-7", title: "📋 Сбор документов", desc: "Юрист предоставляет полный чек-лист, помогает запросить выписки и справки" },
+      { day: "День 8-10", title: "👨‍⚖️ Выбор управляющего", desc: "Юрист подбирает СРО и кандидатуру финансового управляющего" },
+      { day: "День 11-15", title: "📑 Подготовка заявления", desc: "Юрист составляет исковое заявление, рассчитывает госпошлину" },
+      { day: "День 16-20", title: "⚖️ Подача в арбитражный суд", desc: "Юрист подаёт заявление, представляет интересы в суде" },
+      { day: "1-2 месяца", title: "🏛️ Судебное сопровождение", desc: "Юрист участвует во всех заседаниях, защищает ваши интересы" },
+      { day: "3-6 месяцев", title: "💰 Реализация имущества", desc: "Юрист контролирует действия управляющего, минимизирует риски" },
+      { day: "6-8 месяцев", title: "✅ Списание долгов", desc: "Полное освобождение от обязательств, закрытие процедуры" }
+    ];
+  }
 
-      if (fullStep >= fullQuestions.length) {
-        let risk = 0;
-        if (fullAnswers.debt === "До 50 000 ₽") risk += 95;
-        else if (fullAnswers.debt === "50 000 – 300 000 ₽") risk += 15;
-        if (fullAnswers.delay === "Нет") risk += 45;
-        if (fullAnswers.income === "Выше прожиточного минимума") risk += 20;
-        if (fullAnswers.property && fullAnswers.property !== "Нет, только квартира/дом") risk += 30;
-        if (fullAnswers.alimony && fullAnswers.alimony !== "Нет") risk += 25;
-        risk = Math.min(100, Math.max(0, risk));
+  function renderFullResult() {
+    const risk = calculateRisk();
+    const scenario = determineScenario();
+    const checklist = getDocumentChecklist();
+    const timeline = getTimeline();
+    const debtRangeDisplay = answers.debtRange ? debtRanges.find(r => r.value === answers.debtRange)?.display : "не указана";
 
-        const isSimple = (fullAnswers.debt === "50 000 – 300 000 ₽" && fullAnswers.delay === "Да" && fullAnswers.income === "Ниже прожиточного минимума" && fullAnswers.property === "Нет, только квартира/дом");
+    let recommendations = "";
+    if (risk >= 75) recommendations = "🔴 Высокий риск отказа. Обязательная консультация юриста перед подачей.";
+    else if (risk >= 45) recommendations = "🟡 Средний риск. Рекомендуем подготовиться с юристом.";
+    else if (risk >= 15) recommendations = "🟢 Низкий риск. Хорошие шансы на списание.";
+    else recommendations = "🌟 Отличные шансы! Долги спишут с высокой вероятностью.";
+    if (scenario === "mfc") recommendations += " Вам подходит внесудебное банкротство через МФЦ.";
 
-        container.innerHTML = `<div class="result-card">
-          <h3><i class="fas fa-chart-simple"></i> Результат оценки</h3>
-          <p style="font-size: 1.3rem; font-weight: 700; margin: 1rem 0;">Риск отказа в списании: ${risk}%</p>
-          <p>${risk < 30 ? '🟢 Хорошие шансы на списание долгов' : risk < 65 ? '🟡 Средний риск, рекомендуется консультация юриста' : '🔴 Высокий риск, необходима подготовка'}</p>
-          ${isSimple ? '<p style="background: #1e3a8a; padding: 0.8rem; border-radius: 1rem; margin-top: 1rem;"><i class="fas fa-check-circle"></i> Вам подходит внесудебное банкротство через МФЦ</p>' : ''}
-          <button class="calc-next" id="restartFullBtn"><i class="fas fa-rotate-right"></i> Пройти заново</button>
-          <div class="lead-form">
-            <label><i class="fas fa-phone-alt"></i> Получите консультацию юриста</label>
-            <input type="text" id="leadNameFull" placeholder="Ваше имя">
-            <input type="tel" id="leadPhoneFull" placeholder="Телефон">
-            <button id="submitFullLead" class="btn-success"><i class="fab fa-telegram-plane"></i> Отправить заявку</button>
-          </div>
-        </div>`;
+    const positives = [];
+    const debtNum = getNumericDebt();
+    if (debtNum >= 50000) positives.push("✅ Сумма долга выше 50 тыс.");
+    if (answers.delay && answers.delay.includes("Да")) positives.push("✅ Просрочка 90+ дней");
+    if (answers.income && answers.income.includes("Ниже")) positives.push("✅ Доход ниже ПМ");
+    if (answers.property === "🏠 Только единственная квартира/дом") positives.push("✅ Нет лишнего имущества");
 
-        document.getElementById('restartFullBtn')?.addEventListener('click', () => {
-          fullAnswers = {};
-          fullStep = 0;
-          renderFullCalculator();
-        });
-        document.getElementById('submitFullLead')?.addEventListener('click', () => {
-          const name = document.getElementById('leadNameFull')?.value.trim();
-          const phone = document.getElementById('leadPhoneFull')?.value.trim();
-          if (!name || !phone) { alert("Укажите имя и телефон"); return; }
-          alert(`Спасибо, ${name}! Специалист свяжется с вами по номеру ${phone}`);
-        });
-        return;
-      }
+    const risksList = [];
+    if (debtNum < 50000) risksList.push("⚠️ Долг менее 50 тыс. — банкротство невозможно");
+    if (answers.delay && answers.delay.includes("Нет")) risksList.push("⚠️ Нет просрочки 90+ дней");
+    if (answers.income && answers.income.includes("Выше")) risksList.push("⚠️ Доход выше ПМ — реструктуризация");
+    if (answers.property && answers.property !== "🏠 Только единственная квартира/дом") risksList.push("⚠️ Лишнее имущество продадут");
+    if (answers.alimony && answers.alimony !== "✅ Нет, обычные кредиты") risksList.push("⚠️ Алименты/штрафы не спишутся");
+    if (answers.suspicious && answers.suspicious !== "✅ Нет, всё обычное") risksList.push("⚠️ Сделки могут оспорить");
 
-      const q = fullQuestions[fullStep];
-      let html = `<div class="step-title">${q.text} <span class="step-counter">${fullStep+1}/${fullQuestions.length}</span></div>`;
+    const container = document.getElementById('fullCalcContainer');
+    container.innerHTML = `
+      <div class="result-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 1rem;">
+          <h2><i class="fas fa-chart-line"></i> Анализ шансов на списание</h2>
+          <span class="lawyer-badge"><i class="fas fa-gavel"></i> Сопровождение юриста 24/7</span>
+        </div>
+        <div class="risk-meter"><div class="risk-fill" style="width: ${risk}%;"></div></div>
+        <p style="font-size: 2rem; font-weight: 800; margin: 0.5rem 0;">Риск отказа: ${risk}%</p>
+        <p><span class="badge"><i class="fas fa-gavel"></i> Маршрут: ${scenario === "mfc" ? "Внесудебное (МФЦ)" : "Судебное банкротство"}</span></p>
+        <p><span class="badge"><i class="fas fa-coins"></i> Сумма долга: ${debtRangeDisplay}</span></p>
+        <p><strong>📌 Рекомендация:</strong> ${recommendations}</p>
+        ${positives.length ? `<div><strong><i class="fas fa-check-circle" style="color:#10b981;"></i> Плюсы:</strong><ul>${positives.map(p => `<li>${p}</li>`).join('')}</ul></div>` : ''}
+        ${risksList.length ? `<div><strong><i class="fas fa-exclamation-triangle" style="color:#f97316;"></i> Риски:</strong><ul>${risksList.map(r => `<li>${r}</li>`).join('')}</ul></div>` : ''}
+        <hr>
+        <h3><i class="fas fa-folder-open"></i> Чек-лист документов</h3>
+        <ul>${checklist.map(d => `<li>${d}</li>`).join('')}</ul>
+        <hr>
+        <h3><i class="fas fa-calendar-week"></i> План действий с юридическим сопровождением</h3>
+        <div style="background: rgba(37, 99, 235, 0.1); border-radius: 1rem; padding: 1rem; margin: 1rem 0;">
+          <p style="font-size: 0.9rem;"><i class="fas fa-phone-alt" style="color:#f97316;"></i> <strong>Юрист сопровождает вас на каждом этапе:</strong> от консультации до полного списания долгов</p>
+        </div>
+        ${timeline.map(s => `<div class="timeline-lawyer" style="background:#0c1122; border-radius:1rem; padding:0.8rem; margin-top:0.8rem; border-left: 3px solid #f97316;">
+          <strong>📅 ${s.day}:</strong> ${s.title}<br><span style="font-size:0.85rem; color:#94a3b8;">${s.desc}</span>
+        </div>`).join('')}
+        <div class="flex-btns">
+          <button id="restartFullAdvBtn" class="btn-restart"><i class="fas fa-rotate-right"></i> Пройти заново</button>
+        </div>
+        <div class="lead-form">
+          <label><i class="fas fa-user-check"></i> Бесплатная консультация юриста</label>
+          <input type="text" id="leadNameResult" placeholder="Ваше имя" value="${escapeHtml(answers.fullName || '')}">
+          <input type="tel" id="leadPhoneResult" placeholder="+7 (___) ___-__-__" value="${escapeHtml(answers.phone || '')}">
+          <button id="submitLeadFinal" class="btn-success"><i class="fab fa-telegram-plane"></i> Отправить заявку</button>
+        </div>
+        <p style="font-size: 0.75rem; text-align: center; margin-top: 1rem; color: #6b7280;">
+          <i class="fas fa-shield-alt"></i> Нажимая на кнопку, вы соглашаетесь с политикой обработки данных
+        </p>
+      </div>
+    `;
+    
+    const phoneResult = document.getElementById('leadPhoneResult');
+    if (phoneResult) {
+      phoneResult.addEventListener('input', function() { formatPhone(this); });
+    }
+    
+    document.getElementById('restartFullAdvBtn')?.addEventListener('click', () => { currentStep = 0; answers = {}; renderFullCalculator(); });
+    document.getElementById('submitLeadFinal')?.addEventListener('click', () => {
+      const name = document.getElementById('leadNameResult')?.value.trim();
+      const phone = document.getElementById('leadPhoneResult')?.value.trim();
+      if (!name || !phone) { alert("Укажите имя и телефон"); return; }
+      alert(`Спасибо, ${name}! Юрист свяжется с вами по номеру ${phone} в ближайшее время.`);
+    });
+  }
 
-      if (q.type === 'select') {
-        html += `<div class="options-grid">`;
-        q.options.forEach(opt => {
-          const isSelected = (fullAnswers[q.id] === opt);
-          html += `<div class="option-btn ${isSelected ? 'selected' : ''}" data-value="${opt}">${opt}</div>`;
-        });
-        html += `</div>`;
-      } else {
-        html += `<input type="text" id="fullTextInp" placeholder="${q.placeholder}" value="${fullAnswers[q.id] || ''}" style="width:100%; background:#0f1322; border:1px solid #252e45; border-radius:1rem; padding:0.8rem; color:white;">`;
-      }
-
-      html += `<button class="calc-next" id="fullNextBtn">Продолжить <i class="fas fa-arrow-right"></i></button>`;
+  function renderFullCalculator() {
+    const container = document.getElementById('fullCalcContainer');
+    if (!container) return;
+    
+    if (currentStep === 0) {
+      let html = displayProgress();
+      html += `<div class="step-title"><i class="fas fa-user-circle"></i> Основные данные</div>
+               <div class="step-desc">Укажите контакты и примерную сумму долга. Юрист свяжется с вами для консультации.</div>
+               <div class="inline-fields">
+                 <div><label>Ваше полное имя</label><input type="text" id="fullNameAdv" placeholder="Иванов Иван Иванович" value="${escapeHtml(answers.fullName || '')}"></div>
+                 <div><label>Контактный телефон</label><input type="tel" id="phoneAdv" placeholder="+7 (___) ___-__-__" value="${escapeHtml(answers.phone || '')}"></div>
+               </div>
+               <div style="margin: 0.5rem 0;"><label><i class="fas fa-ruble-sign"></i> Сумма долгов (выберите диапазон)</label></div>
+               <div class="options-grid" id="debtRangeGridAdv">`;
+      debtRanges.forEach(range => {
+        const isSelected = (answers.debtRange === range.value);
+        html += `<div class="option-btn ${isSelected ? 'selected' : ''}" data-debt-value="${range.value}">${range.label} <i class="fas fa-chevron-right"></i></div>`;
+      });
+      html += `</div><button class="calc-next" id="nextBtnAdv"><i class="fas fa-arrow-right"></i> Далее — ответить на 7 вопросов</button>`;
       container.innerHTML = html;
-
-      document.querySelectorAll('#fullCalcContainer .option-btn').forEach(btn => {
+      
+      const phoneInput = document.getElementById('phoneAdv');
+      if (phoneInput) {
+        phoneInput.addEventListener('input', function() { formatPhone(this); });
+      }
+      
+      document.querySelectorAll('#debtRangeGridAdv .option-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-          fullAnswers[q.id] = btn.dataset.value;
-          fullStep++;
-          renderFullCalculator();
+          answers.debtRange = btn.dataset.debtValue;
+          document.querySelectorAll('#debtRangeGridAdv .option-btn').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
         });
       });
-
-      const textInput = document.getElementById('fullTextInp');
-      if (textInput) {
-        textInput.addEventListener('input', (e) => { fullAnswers[q.id] = e.target.value; });
-      }
-
-      document.getElementById('fullNextBtn')?.addEventListener('click', () => {
-        if (q.type === 'select' && !fullAnswers[q.id]) { alert("Выберите вариант"); return; }
-        if (q.type === 'text' && (!fullAnswers[q.id] || fullAnswers[q.id].trim() === '')) { alert("Заполните поле"); return; }
-        fullStep++;
+      
+      document.getElementById('nextBtnAdv')?.addEventListener('click', () => {
+        const fullName = document.getElementById('fullNameAdv')?.value.trim();
+        const phone = document.getElementById('phoneAdv')?.value.trim();
+        if (!fullName || !phone) { alert("Заполните имя и телефон"); return; }
+        if (!answers.debtRange) { alert("Выберите диапазон суммы долгов"); return; }
+        answers.fullName = fullName;
+        answers.phone = phone;
+        currentStep++;
         renderFullCalculator();
       });
+      return;
     }
+    
+    const qIndex = currentStep - 1;
+    if (qIndex >= otherQuestions.length) { renderFullResult(); return; }
+    
+    const q = otherQuestions[qIndex];
+    let html = displayProgress();
+    html += `<div class="step-title">${q.text}</div>`;
+    if (q.desc) html += `<div class="step-desc"><i class="fas fa-lightbulb"></i> ${q.desc}</div>`;
+    html += `<div class="options-grid">`;
+    q.options.forEach(opt => {
+      const isSelected = (answers[q.id] === opt);
+      html += `<div class="option-btn ${isSelected ? 'selected' : ''}" data-value="${escapeHtml(opt)}">${opt} <i class="fas fa-chevron-right"></i></div>`;
+    });
+    html += `</div><div style="display: flex; gap: 1rem;"><button id="backStepAdvBtn" class="back-btn"><i class="fas fa-arrow-left"></i> Назад</button></div>`;
+    container.innerHTML = html;
+    
+    document.querySelectorAll('.option-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        answers[q.id] = btn.dataset.value;
+        currentStep++;
+        renderFullCalculator();
+      });
+    });
+    
+    document.getElementById('backStepAdvBtn')?.addEventListener('click', () => { if (currentStep > 0) { currentStep--; renderFullCalculator(); } });
+  }
+  
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    });
+  }
 
-    renderFullCalculator();
-  });
+  renderFullCalculator();
 </script>
 </body>
 </html>
